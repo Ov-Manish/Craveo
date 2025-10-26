@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
-    name: {
+const foodPartnerSchema = new mongoose.Schema({
+      name: {
         type : String,
         required : true,
         trim : true,
@@ -13,20 +13,16 @@ const userSchema = new mongoose.Schema({
         trim : true,
         unique : true,
         lowercase : true,
-         match: [/^\S+@\S+\.\S+$/, "Please enter a valid email"], //this symbols shoudl not be there
+        match: [/^\S+@\S+\.\S+$/, "Please enter a valid email"], //this symbols shoudl not be there
     },
     password : {
         type : String,
         minlength : [6,"Password must be at least 6 characters long"],
         select: false, //this will not include the password property when we fetch data from the mongoDB
-    }
+    },
 
-},
-{
-     timestamps: true,
 })
 
+const foodPartnerModel = mongoose.model('foodPartner' , foodPartnerSchema)
 
-const userModel = mongoose.model('user' , userSchema)
-
-export default userModel;
+export default foodPartnerModel;

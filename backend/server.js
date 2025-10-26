@@ -1,9 +1,9 @@
+import dotenv from "dotenv"
 // Starting the Server in this file 
 import app from "./src/app.js";
 import connectDB from "./src/db/db.js";
-import dotenv from "dotenv"
-// Load env variables from env file 
 dotenv.config()
+// Load env variables from env file 
 // Connecting the mongodb with help of mongoose
 connectDB()
 
