@@ -89,7 +89,7 @@ export const logoutUser = async(req,res)=>{
 
 // Controller 4 : Food Partner Registration 
 export const registerFoodPartner = async(req,res)=>{
-    const {name , email , password} = req.body;
+    const {name , contactName , phone , address , email , password} = req.body;
 
     const foodPartnerExist = await foodPartnerModel.findOne({email})
     // finding the Food Partner exist or not 
@@ -106,7 +106,10 @@ export const registerFoodPartner = async(req,res)=>{
     const foodPartner =  await foodPartnerModel.create({
         name,
         email,
-        password : hashedpassword
+        password : hashedpassword,
+        contactName,
+        phone,
+        address
     })
 
     // Generating the Token
@@ -121,7 +124,10 @@ export const registerFoodPartner = async(req,res)=>{
         foodPartner : {
             _id : foodPartner._id,
             name : foodPartner.name,
-            email : foodPartner.email
+            email : foodPartner.email,
+            contactName : foodPartner.contactName,
+            phone : foodPartner.phone,
+            address : foodPartner.address
         }
     })
 }

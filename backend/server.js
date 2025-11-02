@@ -7,7 +7,6 @@ dotenv.config()
 // Connecting the mongodb with help of mongoose
 connectDB()
 
-
 app.listen(3000 , ()=>{
     console.log(`http://localhost:3000`);
     

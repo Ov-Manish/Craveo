@@ -1,11 +1,23 @@
 import mongoose from "mongoose";
 
 const foodPartnerSchema = new mongoose.Schema({
-      name: {
+    name: {
         type : String,
         required : true,
         trim : true,
         minlength : [2,"Name Bust be atleast two character long"]
+    },
+    contactName :{
+       type : String,
+       required : true,
+    },
+    phone:{
+        type : String,
+        required : true,
+    },
+    address : {
+        type : String,
+        required : true,
     },
     email : {
         type : String,

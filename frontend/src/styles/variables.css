@@ -1,0 +1,32 @@
+/* Centralized theme variables with system light/dark support */
+
+:root{
+  /* Light theme */
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --muted: #6b7280;
+  --text: #0f172a;
+  --accent: #ffd75f;
+  --accent-contrast: #ffffff;
+  --card-shadow: 0 6px 18px rgba(16,24,40,0.06);
+  --radius: 10px;
+  --input-bg: #f3f4f6;
+  --border: #e6e9ef;
+  --glass: rgba(255,255,255,0.6);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root{
+    --bg: #0b1020;
+    --surface: #0f1724;
+    --muted: #9aa4b2;
+    --text: #e6eef8;
+    --accent: #ffd75f;
+    --accent-contrast: #071233;
+    --card-shadow: 0 6px 20px rgba(2,6,23,0.7);
+    --radius: 10px;
+    --input-bg: #0b1220;
+    --border: #122033;
+    --glass: rgba(255,255,255,0.02);
+  }
+}
