@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { createFoodItems , getFoodItems} from "../controllers/food.controller.js";
 import { authFoodPartnerMiddleware , authUserMiddleware } from "../middlewares/auth.middleware.js";
-import { likeFoodController , saveFoodController } from "../controllers/food.controller.js";
+import { likeFoodController , saveFoodController , getSavedFoodVideos } from "../controllers/food.controller.js";
 import multer from "multer";
 
 const upload = multer({
@@ -34,6 +34,10 @@ foodRoutes.post('/like', // routes for the like video
 foodRoutes.post('/save', // route for sving the video 
                 authUserMiddleware,
                 saveFoodController
-
 ) 
+
+foodRoutes.get('/saved',
+    authUserMiddleware,
+    getSavedFoodVideos
+)
 export default foodRoutes; 

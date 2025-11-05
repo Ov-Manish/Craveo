@@ -20,6 +20,10 @@ const foodItemSchema = new mongoose.Schema({
     likeCount :{
         type : Number,
         default : 0
+    },
+    saveCount : {
+        type : Number,
+        default : 0
     }
 })
 

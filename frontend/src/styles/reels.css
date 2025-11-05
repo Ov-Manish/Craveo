@@ -176,6 +176,7 @@
   opacity: 0.7;
 }
 
+
 /* responsive tweaks */
 @media (min-width: 700px) {
   .video-text {

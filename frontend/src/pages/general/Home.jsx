@@ -14,7 +14,7 @@ const Home = () => {
       })
       .then((res) => {
         setVideos(res.data.foodItems);
-        console.log(res.data);
+        console.log("Response Data",res.data);
       })
       .catch((err) => {
         console.error(err, "Error fetching videos");
@@ -49,6 +49,45 @@ const Home = () => {
     };
   }, [videos]);
 
+// Like Video method : 
+  const handleLikeVideo = async(video)=>{
+    const response = await axios.post("http://localhost:3000/api/food/like",{foodId : video._id},{
+      withCredentials : true
+    })
+   
+   
+    if (response.data.like) {
+      setVideos((prev)=>prev.map((vid)=> vid._id === video._id ? {
+        ...vid,
+        likeCount : vid.likeCount + 1
+      } : vid))
+    }else{
+      setVideos((prev)=>prev.map((vid)=> vid._id === video._id ? {
+        ...vid,
+        likeCount : vid.likeCount - 1
+      } : vid))
+      
+    }
+  }
+
+  const handleSavedVideo = async(video)=>{
+    const response = await axios.post("http://localhost:3000/api/food/save",{foodId : video._id},{
+      withCredentials : true
+    })
+
+    if (response.data.save) {
+      console.log("Video Saved SuccessFully");
+      setVideos((prev)=> prev.map((vid)=> vid._id === video._id ? {...vid,
+      saveCount : vid.saveCount + 1 } : vid))
+    }else{
+      console.log("Video UnSaved successfully");
+      setVideos((prev)=> prev.map((vid)=> vid._id === video._id ? {...vid,
+      saveCount : vid.saveCount - 1 } : vid))
+    }
+    
+  }
+
+
   return (
     <div className="screen">
       <div className="video-feed">
@@ -77,24 +116,27 @@ const Home = () => {
               </div>
 
               <div className="video-side-actions">
-                <button className="action-btn" aria-label="Like">
+                <button onClick={()=>{handleLikeVideo(video)}} className="action-btn" aria-label="Like">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
                     <path d="M12 21s-7-4.5-9-8a5 5 0 019-6 5 5 0 019 6c-2 3.5-9 8-9 8z" stroke="#fff" strokeWidth="1.2" fill="rgba(255,255,255,0.06)"/>
                   </svg>
-                  <span className="action-count">23</span>
+                  {/* LIKES COUNT*/}
+                  <span className="action-count">{video.likeCount}</span> 
                 </button>
 
-                <button className="action-btn" aria-label="Save">
+                <button onClick={()=>{handleSavedVideo(video)}} className="action-btn" aria-label="Save">
                   <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
                     <path d="M6 2h10l4 4v16l-8-4-8 4V6z" stroke="#fff" strokeWidth="1.2" fill="rgba(255,255,255,0.02)"/>
                   </svg>
-                  <span className="action-count">23</span>
+                  {/* SAVED COUNT */}
+                  <span className="action-count">{video.saveCount}</span> 
                 </button>
 
                 <button className="action-btn" aria-label="Comment">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="#fff" strokeWidth="1.2" fill="rgba(255,255,255,0.02)"/>
                   </svg>
+                  {/* Comments COUNT */}
                   <span className="action-count">45</span>
                 </button>
               </div>

@@ -87,15 +87,19 @@ export const likeFoodController = async(req,res)=>{
 export const saveFoodController = async(req,res)=>{
     const {foodId} = req.body;
     const user = req.user
-    const isFoodVideoSaved = await savedFoodModel.findOne({
+    const isFoodVideoSavedAlready = await savedFoodModel.findOne({
         user : user._id,
         food : foodId,
     }) 
 
-    if (isFoodVideoSaved) {
+    if (isFoodVideoSavedAlready) {
         await savedFoodModel.deleteOne({
             user : user._id,
             food : foodId,
+        })
+
+        await foodItemModel.findByIdAndUpdate(foodId,{
+        $inc : {saveCount : -1}
         })
 
         return res.status(200).json({
@@ -103,13 +107,36 @@ export const saveFoodController = async(req,res)=>{
         })
     }
     
+    
+
     const foodSaved = await savedFoodModel.create({
         user : user._id,
         food : foodId
     })
-
+    await foodItemModel.findByIdAndUpdate(foodId,{
+        $inc : {saveCount : 1}
+        })
     return res.status(201).json({
         message : "Food is Saved Successfully",
-        foodSaved 
+        save : foodSaved 
+    })
+}
+
+export const getSavedFoodVideos = async(req,res)=>{
+    const user = req.user;
+
+    const savedFoods = await savedFoodModel.find({
+        user : user._id,
+    }).populate('food')
+
+    if (!savedFoods) {
+        return res.status(404).json({
+            message : "No Food Video is Saved "
+        })
+    }
+
+    res.status(201).json({
+        message : "Saved Food Videos is Fetched Successfully",
+        savedFoods
     })
 }
