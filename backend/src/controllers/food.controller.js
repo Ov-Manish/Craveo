@@ -1,6 +1,8 @@
 import foodItemModel from "../models/foodItem.model.js";
+import savedFoodModel from "../models/savedFood.model.js";
 import { v4 as uuidv4 } from "uuid";
 import { uploadFile } from "../services/storage.service.js";
+import likeModel from "../models/likes.model.js";
 // Controller 1 : Add Food Item Controller
 export const createFoodItems = async(req,res)=>{
     // console.log("THE FOOD PARTNER : ",req.foodPartner);
@@ -40,5 +42,74 @@ export const getFoodItems = async(req,res)=>{
     res.status(201).json({
         message : "Food Items fetched Successfully",
         foodItems : foodItems
+    })
+}
+
+export const likeFoodController = async(req,res)=>{
+    const {foodId} = req.body;
+    const userId = req.user;
+
+    const alreadyLiked = await likeModel.findOne({
+        user : userId._id ,
+        food : foodId
+    });
+    if(alreadyLiked){
+        await likeModel.deleteOne({
+            user : userId._id ,
+            food : foodId
+        })
+
+        await foodItemModel.findByIdAndUpdate(foodId,{
+            $inc : {likeCount : -1} // like count decreasing when user unlike the video
+        })
+
+        return res.status(200).json({
+            message : "User Unliked the food item "
+        })
+    }
+
+    const like = await likeModel.create({
+        user : userId._id,
+        food : foodId
+    })
+
+     await foodItemModel.findByIdAndUpdate(foodId,{
+            $inc : {likeCount : 1} // like count is increasing when user liked the video 
+        })
+
+    res.status(201).json({
+        message : "Food Item Liked Successfully",
+        like : like
+    })   
+    
+}
+
+export const saveFoodController = async(req,res)=>{
+    const {foodId} = req.body;
+    const user = req.user
+    const isFoodVideoSaved = await savedFoodModel.findOne({
+        user : user._id,
+        food : foodId,
+    }) 
+
+    if (isFoodVideoSaved) {
+        await savedFoodModel.deleteOne({
+            user : user._id,
+            food : foodId,
+        })
+
+        return res.status(200).json({
+            message : "Food Unsaved Successfully",
+        })
+    }
+    
+    const foodSaved = await savedFoodModel.create({
+        user : user._id,
+        food : foodId
+    })
+
+    return res.status(201).json({
+        message : "Food is Saved Successfully",
+        foodSaved 
     })
 }

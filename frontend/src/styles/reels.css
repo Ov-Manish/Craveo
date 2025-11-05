@@ -1,74 +1,184 @@
-/* Full-screen vertical scrolling container */
-.video-feed {
-  height: 100vh;
-  width: 100%;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-}
-
-/* Each video covers the full screen */
-.video-container {
+/* ...existing code... */
+.screen {
   position: relative;
   height: 100vh;
-  width: 100%;
-  scroll-snap-align: start;
-  /* display: flex; */
-  /* justify-content: center; */
-  /* align-items: center; */
-  background: black;
+  background: #0b0b0b;
+  color: #fff;
+  overflow: hidden;
 }
 
-/* Video fits the full container */
-.video {
+.video-feed {
+  height: calc(100vh - 64px); /* leave space for bottom nav */
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+}
+
+.video-container {
+  position: relative;
   height: 100%;
-  width: 100%;
-  object-fit: contain;
+  scroll-snap-align: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Overlay content (description + button) */
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
+}
+
+/* overlay layout */
 .video-overlay {
   position: absolute;
-  bottom: 40px;
-  width: 100%;
-  text-align: start;
-  padding: 0 20px;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 18px;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+}
+
+.video-text {
+  max-width: 65%;
+  pointer-events: auto;
+}
+
+.video-description {
+  margin: 0;
+  color: #fff;
+  font-size: 16px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+}
+
+.video-description.small {
+  opacity: 0.85;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.visit-store-btn {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 8px 14px;
+  background: crimson;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  pointer-events: auto;
+}
+
+/* right side vertical actions */
+.video-side-actions {
+  pointer-events: auto;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
-}
-
-/* Description text (2-line truncation) */
-.video-description {
-  color: white;
-  font-size: 1rem;
-  font-weight: 500;
+  gap: 18px;
+  align-items: center;
+  margin-right: 6px;
   margin-bottom: 10px;
-  text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* Max 2 lines */
-  -webkit-box-orient: vertical;
 }
 
-/* Button styling */
-.visit-store-btn {
-  background:#ffd75f;
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
   border: none;
-  width: 20%;
-  padding: 15px 0px;
-  text-align: center;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 600;
-  color:  #0f172a;
+  color: #fff;
   cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
 }
 
-.visit-store-btn:hover {
-  background: #e60045;
-  color: white;
-  transform: scale(1.05);
+.action-count {
+  font-size: 12px;
+  color: #fff;
+  opacity: 0.95;
+}
+
+/* bottom navigation */
+.bottom-nav {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  height: 56px;
+  background: transparent;
+  border-radius: 14px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 6px 12px;
+  /* box-shadow: 0 8px 30px rgba(0,0,0,0.6); */
+  z-index: 60;
+  pointer-events: auto;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #ddd;
+  gap: 2px;
+  font-size: 11px;
+}
+
+.nav-item.active,
+.nav-item:focus {
+  color: #fff;
+}
+
+.nav-label {
+  font-size: 11px;
+  text-transform: lowercase;
+}
+
+/* saved page */
+.saved-screen {
+  padding: 18px 12px 80px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.saved-list h2 {
+  margin: 8px 0 14px;
+  font-size: 20px;
+}
+
+.saved-card {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 10px;
+  background: rgba(255,255,255,0.02);
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+.saved-thumb {
+  width: 76px;
+  height: 64px;
+  border-radius: 8px;
+  background: linear-gradient(135deg,#333,#111);
+}
+
+.saved-title {
+  font-weight: 600;
+}
+
+.saved-sub {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* responsive tweaks */
+@media (min-width: 700px) {
+  .video-text {
+    max-width: 50%;
+  }
 }

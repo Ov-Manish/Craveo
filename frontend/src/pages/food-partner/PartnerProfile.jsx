@@ -25,7 +25,9 @@ export default function PartnerProfile() {
     <div className="partner-container">
       {/* Profile Header */}
       <div className="profile-card">
-        <div className="profile-avatar"></div>
+        <div className="profile-avatar">
+          <img style={{height : "100px" , width:"100px", objectFit:"cover", borderRadius : "50%"}} src="https://images.pexels.com/photos/9604304/pexels-photo-9604304.jpeg" alt="" />
+        </div>
         <div className="profile-text">
           <h2 className="business-name">{profile?.name}</h2>
           <p className="business-address">{profile?.address}</p>
